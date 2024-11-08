@@ -74,4 +74,14 @@ export class MemberService {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updatedMembers));
     this.membersSubject.next(updatedMembers);
   }
+
+  updateMember(updatedMember: Member): void {
+    const currentMembers = this.membersSubject.value;
+    const updatedMembers = currentMembers.map(member => 
+      member.id === updatedMember.id ? updatedMember : member
+    );
+    
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updatedMembers));
+    this.membersSubject.next(updatedMembers);
+  }
 }

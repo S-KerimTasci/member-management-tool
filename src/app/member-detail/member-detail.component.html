@@ -1,15 +1,17 @@
 <div class="p-6">
-    <div class="max-w-6xl mx-auto">
-      <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold">Mitgliedsdetails</h1>
-        <button mat-button color="primary" routerLink="/members">
-          <mat-icon>arrow_back</mat-icon>
-          Zurück
-        </button>
-      </div>
+  <div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold">Mitgliedsdetails</h1>
+      <button mat-button color="primary" routerLink="/members">
+        <mat-icon>arrow_back</mat-icon>
+        Zurück
+      </button>
+    </div>
 
-      <mat-card class="mb-6">
-        <mat-card-content>
+    <mat-card class="mb-6">
+      <mat-card-content>
+        <!-- View Mode -->
+        <ng-container *ngIf="!editMode">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Persönliche Informationen -->
             <div>
@@ -68,18 +70,185 @@
             <h2 class="text-lg font-semibold mb-4">Notizen</h2>
             <p class="whitespace-pre-line">{{member?.notes}}</p>
           </div>
-        </mat-card-content>
-      </mat-card>
+        </ng-container>
 
-      <div class="flex justify-end space-x-4">
-        <button mat-button color="primary">
-          <mat-icon>edit</mat-icon>
-          Bearbeiten
-        </button>
-        <button mat-button color="warn" (click)="onDelete()">
-          <mat-icon>delete</mat-icon>
-          Löschen
-        </button>
-      </div>
+        <!-- Edit Mode -->
+        <form *ngIf="editMode && memberForm" [formGroup]="memberForm" (ngSubmit)="onSubmit()">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Persönliche Informationen -->
+            <div>
+              <h2 class="text-lg font-semibold mb-4">Persönliche Informationen</h2>
+              
+              <mat-form-field class="w-full">
+                <mat-label>Mitgliedsnummer</mat-label>
+                <input matInput formControlName="membershipNumber" readonly>
+              </mat-form-field>
+
+              <mat-form-field class="w-full">
+                <mat-label>Ansprache</mat-label>
+                <mat-select formControlName="salutation">
+                  <mat-option [value]="Salutation.HERR">Herr</mat-option>
+                  <mat-option [value]="Salutation.FRAU">Frau</mat-option>
+                  <mat-option [value]="Salutation.DIVERS">Divers</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="w-full">
+                <mat-label>Vorname</mat-label>
+                <input matInput formControlName="firstName">
+              </mat-form-field>
+
+              <mat-form-field class="w-full">
+                <mat-label>Nachname</mat-label>
+                <input matInput formControlName="lastName">
+              </mat-form-field>
+
+              <mat-form-field class="w-full">
+                <mat-label>Geburtsdatum</mat-label>
+                <input matInput [matDatepicker]="birthDatePicker" formControlName="birthDate">
+                <mat-datepicker-toggle matIconSuffix [for]="birthDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #birthDatePicker></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field class="w-full">
+                <mat-label>Geburtsort</mat-label>
+                <input matInput formControlName="birthPlace">
+              </mat-form-field>
+
+              <mat-form-field class="w-full">
+                <mat-label>Staatsbürgerschaft</mat-label>
+                <input matInput formControlName="citizenship">
+              </mat-form-field>
+
+              <mat-form-field class="w-full">
+                <mat-label>Beruf</mat-label>
+                <input matInput formControlName="occupation">
+              </mat-form-field>
+            </div>
+            
+            <!-- Kontaktinformationen -->
+            <div>
+              <h2 class="text-lg font-semibold mb-4">Kontaktinformationen</h2>
+              
+              <mat-form-field class="w-full">
+                <mat-label>Straße</mat-label>
+                <input matInput formControlName="street">
+              </mat-form-field>
+
+              <mat-form-field class="w-full">
+                <mat-label>Postleitzahl</mat-label>
+                <input matInput formControlName="postalCode">
+              </mat-form-field>
+
+              <mat-form-field class="w-full">
+                <mat-label>Stadt</mat-label>
+                <input matInput formControlName="city">
+              </mat-form-field>
+
+              <mat-form-field class="w-full">
+                <mat-label>Telefon</mat-label>
+                <input matInput formControlName="phone">
+              </mat-form-field>
+
+              <mat-form-field class="w-full">
+                <mat-label>E-Mail</mat-label>
+                <input matInput formControlName="email" type="email">
+              </mat-form-field>
+            </div>
+
+            <!-- Mitgliedschaft & Beitrag -->
+            <div>
+              <h2 class="text-lg font-semibold mb-4">Mitgliedschaft & Beitrag</h2>
+              
+              <mat-form-field class="w-full">
+                <mat-label>Mitglied seit</mat-label>
+                <input matInput [matDatepicker]="memberSincePicker" formControlName="memberSince">
+                <mat-datepicker-toggle matIconSuffix [for]="memberSincePicker"></mat-datepicker-toggle>
+                <mat-datepicker #memberSincePicker></mat-datepicker>
+              </mat-form-field>
+              
+
+              <mat-form-field class="w-full">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="status">
+                  <mat-option value="active">Aktiv</mat-option>
+                  <mat-option value="inactive">Inaktiv</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="w-full">
+                <mat-label>Beitragsintervall</mat-label>
+                <mat-select formControlName="paymentInterval">
+                  <mat-option [value]="PaymentInterval.MONATLICH">Monatlich</mat-option>
+                  <mat-option [value]="PaymentInterval.VIERTELJAEHRLICH">Vierteljährlich</mat-option>
+                  <mat-option [value]="PaymentInterval.HALBJAEHRLICH">Halbjährlich</mat-option>
+                  <mat-option [value]="PaymentInterval.JAEHRLICH">Jährlich</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="w-full">
+                <mat-label>Beitragshöhe</mat-label>
+                <input matInput type="number" formControlName="contributionAmount">
+                <span matTextSuffix>€</span>
+              </mat-form-field>
+            </div>
+
+            <!-- Bankverbindung -->
+            <div>
+              <h2 class="text-lg font-semibold mb-4">Zahlungsinformationen</h2>
+              
+              <mat-form-field class="w-full">
+                <mat-label>Zahlungsart</mat-label>
+                <mat-select formControlName="paymentMethod">
+                  <mat-option [value]="PaymentMethod.LASTSCHRIFT">Lastschrift</mat-option>
+                  <mat-option [value]="PaymentMethod.UEBERWEISUNG">Überweisung</mat-option>
+                  <mat-option [value]="PaymentMethod.BAR">Bar</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="w-full">
+                <mat-label>Bank</mat-label>
+                <input matInput formControlName="bankName">
+              </mat-form-field>
+
+              <mat-form-field class="w-full">
+                <mat-label>IBAN</mat-label>
+                <input matInput formControlName="iban">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Notizen -->
+          <mat-divider class="my-6"></mat-divider>
+          <div>
+            <h2 class="text-lg font-semibold mb-4">Notizen</h2>
+            <mat-form-field class="w-full">
+              <mat-label>Notizen</mat-label>
+              <textarea matInput formControlName="notes" rows="4"></textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="flex justify-end space-x-4 mt-6">
+            <button type="button" mat-button (click)="toggleEditMode()">
+              Abbrechen
+            </button>
+            <button type="submit" mat-raised-button color="primary">
+              Speichern
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="flex justify-end space-x-4">
+      <button *ngIf="!editMode" mat-button color="primary" (click)="toggleEditMode()">
+        <mat-icon>edit</mat-icon>
+        Bearbeiten
+      </button>
+      <button *ngIf="!editMode" mat-button color="warn" (click)="onDelete()">
+        <mat-icon>delete</mat-icon>
+        Löschen
+      </button>
     </div>
   </div>
+</div>
