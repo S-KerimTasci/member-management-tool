@@ -1,4 +1,3 @@
-// models/member.model.ts
 
 export enum Salutation {
     HERR = 'Herr',

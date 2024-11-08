@@ -67,4 +67,11 @@ export class MemberService {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updatedMembers));
     this.membersSubject.next(updatedMembers);
   }
+
+  deleteMember(id: number): void {
+    const currentMembers = this.membersSubject.value;
+    const updatedMembers = currentMembers.filter(member => member.id !== id);
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updatedMembers));
+    this.membersSubject.next(updatedMembers);
+  }
 }
