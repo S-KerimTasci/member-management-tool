@@ -1,0 +1,167 @@
+<div class="p-6">
+    <div class="max-w-8xl mx-auto">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Neues Mitglied hinzufügen</h1>
+        <button mat-button color="primary" routerLink="/members">
+          <mat-icon>arrow_back</mat-icon>
+          Zurück
+        </button>
+      </div>
+
+      <form [formGroup]="memberForm" (ngSubmit)="onSubmit()">
+        <mat-card class="mb-6">
+          <mat-card-content>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <!-- Persönliche Informationen -->
+              <div>
+                <h2 class="text-lg font-semibold mb-4">Persönliche Informationen</h2>
+                
+                <mat-form-field class="w-full">
+                  <mat-label>Mitgliedsnummer</mat-label>
+                  <input matInput formControlName="membershipNumber">
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                  <mat-label>Ansprache</mat-label>
+                  <mat-select formControlName="salutation">
+                    <mat-option [value]="Salutation.HERR">Herr</mat-option>
+                    <mat-option [value]="Salutation.FRAU">Frau</mat-option>
+                    <mat-option [value]="Salutation.DIVERS">Divers</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                  <mat-label>Vorname</mat-label>
+                  <input matInput formControlName="firstName">
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                  <mat-label>Nachname</mat-label>
+                  <input matInput formControlName="lastName">
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                  <mat-label>Geburtsdatum</mat-label>
+                  <input matInput [matDatepicker]="picker" formControlName="birthDate">
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                  <mat-label>Geburtsort</mat-label>
+                  <input matInput formControlName="birthPlace">
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                  <mat-label>Staatsbürgerschaft</mat-label>
+                  <input matInput formControlName="citizenship">
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                  <mat-label>Beruf</mat-label>
+                  <input matInput formControlName="occupation">
+                </mat-form-field>
+              </div>
+
+              <!-- Kontaktinformationen -->
+              <div>
+                <h2 class="text-lg font-semibold mb-4">Kontaktinformationen</h2>
+
+                <mat-form-field class="w-full">
+                  <mat-label>Straße und Hausnummer</mat-label>
+                  <input matInput formControlName="street">
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                  <mat-label>Postleitzahl</mat-label>
+                  <input matInput formControlName="postalCode">
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                  <mat-label>Stadt</mat-label>
+                  <input matInput formControlName="city">
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                  <mat-label>Telefon</mat-label>
+                  <input matInput formControlName="phone">
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                  <mat-label>E-Mail</mat-label>
+                  <input matInput formControlName="email" type="email">
+                </mat-form-field>
+              </div>
+
+              <!-- Mitgliedschaft & Zahlung -->
+              <div>
+                <h2 class="text-lg font-semibold mb-4">Mitgliedschaft & Zahlung</h2>
+
+                <mat-form-field class="w-full">
+                  <mat-label>Mitglied seit</mat-label>
+                  <input matInput [matDatepicker]="joinDatePicker" formControlName="memberSince">
+                  <mat-datepicker-toggle matIconSuffix [for]="joinDatePicker"></mat-datepicker-toggle>
+                  <mat-datepicker #joinDatePicker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                  <mat-label>Beitragsintervall</mat-label>
+                  <mat-select formControlName="paymentInterval">
+                    <mat-option [value]="PaymentInterval.MONATLICH">Monatlich</mat-option>
+                    <mat-option [value]="PaymentInterval.VIERTELJAEHRLICH">Vierteljährlich</mat-option>
+                    <mat-option [value]="PaymentInterval.HALBJAEHRLICH">Halbjährlich</mat-option>
+                    <mat-option [value]="PaymentInterval.JAEHRLICH">Jährlich</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                  <mat-label>Beitragshöhe</mat-label>
+                  <input matInput type="number" formControlName="contributionAmount">
+                  <span matTextSuffix>€</span>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                  <mat-label>Zahlungsart</mat-label>
+                  <mat-select formControlName="paymentMethod">
+                    <mat-option [value]="PaymentMethod.LASTSCHRIFT">Lastschrift</mat-option>
+                    <mat-option [value]="PaymentMethod.UEBERWEISUNG">Überweisung</mat-option>
+                    <mat-option [value]="PaymentMethod.BAR">Bar</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                  <mat-label>Name der Bank</mat-label>
+                  <input matInput formControlName="bankName">
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                  <mat-label>IBAN</mat-label>
+                  <input matInput formControlName="iban">
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Notizen -->
+            <div class="mt-6">
+              <h2 class="text-lg font-semibold mb-4">Notizen</h2>
+              <mat-form-field class="w-full">
+                <mat-label>Notizen</mat-label>
+                <textarea matInput formControlName="notes" rows="4"></textarea>
+              </mat-form-field>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <div class="flex justify-end space-x-4">
+          <button mat-button type="button" color="warn" (click)="onReset()">
+            <mat-icon>clear</mat-icon>
+            Zurücksetzen
+          </button>
+          <button mat-button type="submit" color="primary">
+            <mat-icon>save</mat-icon>
+            Speichern
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
