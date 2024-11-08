@@ -4,7 +4,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Member, MOCK_MEMBER } from '../modals/member.class';
+import { Member, MOCK_MEMBERS } from '../modals/member.class';
 import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
@@ -28,7 +28,9 @@ export class MemberDetailComponent implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    // Hier würdest du normalerweise einen Service aufrufen
-    this.member = MOCK_MEMBER;
+    if (id !== null) {
+      // Suche nach der exakten ID
+      this.member = MOCK_MEMBERS.find(member => member.id === parseInt(id));
+    }
   }
 }
