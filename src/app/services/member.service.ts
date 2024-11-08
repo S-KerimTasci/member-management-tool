@@ -41,4 +41,30 @@ export class MemberService {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(MOCK_MEMBERS));
     this.membersSubject.next(MOCK_MEMBERS);
   }
+
+  addMember(memberData: Omit<Member, 'id' | 'membershipNumber'>): void {
+    const currentMembers = this.membersSubject.value;
+    
+    // Generiere neue ID
+    const newId = currentMembers.length > 0 
+      ? Math.max(...currentMembers.map(m => m.id)) + 1 
+      : 1;
+    
+    // Generiere Mitgliedsnummer (Format: M2024001, M2024002, etc.)
+    const newMembershipNumber = `M${new Date().getFullYear()}${String(newId).padStart(3, '0')}`;
+    
+    // Erstelle neues Member-Objekt
+    const newMember: Member = {
+      id: newId,
+      membershipNumber: newMembershipNumber,
+      ...memberData
+    };
+    
+    // Füge den neuen Member hinzu
+    const updatedMembers = [...currentMembers, newMember];
+    
+    // Aktualisiere LocalStorage und Subject
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updatedMembers));
+    this.membersSubject.next(updatedMembers);
+  }
 }
