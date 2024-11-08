@@ -1,0 +1,85 @@
+<div class="p-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Mitgliedsdetails</h1>
+        <button mat-button color="primary" routerLink="/members">
+          <mat-icon>arrow_back</mat-icon>
+          Zurück
+        </button>
+      </div>
+
+      <mat-card class="mb-6">
+        <mat-card-content>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Persönliche Informationen -->
+            <div>
+              <h2 class="text-lg font-semibold mb-4">Persönliche Informationen</h2>
+              <div class="space-y-2">
+                <p><span class="font-medium">Mitgliedsnummer:</span> {{member?.membershipNumber}}</p>
+                <p><span class="font-medium">Ansprache:</span> {{member?.salutation}}</p>
+                <p><span class="font-medium">Name:</span> {{member?.firstName}} {{member?.lastName}}</p>
+                <p><span class="font-medium">Geburtsdatum:</span> {{member?.birthDate | date:'dd.MM.yyyy'}}</p>
+                <p><span class="font-medium">Geburtsort:</span> {{member?.birthPlace}}</p>
+                <p><span class="font-medium">Staatsbürgerschaft:</span> {{member?.citizenship}}</p>
+                <p><span class="font-medium">Beruf:</span> {{member?.occupation}}</p>
+              </div>
+            </div>
+            
+            <!-- Kontaktinformationen -->
+            <div>
+              <h2 class="text-lg font-semibold mb-4">Kontaktinformationen</h2>
+              <div class="space-y-2">
+                <p><span class="font-medium">Straße:</span> {{member?.street}}</p>
+                <p><span class="font-medium">PLZ/Ort:</span> {{member?.postalCode}} {{member?.city}}</p>
+                <p><span class="font-medium">Telefon:</span> {{member?.phone}}</p>
+                <p><span class="font-medium">E-Mail:</span> {{member?.email}}</p>
+              </div>
+            </div>
+
+            <!-- Mitgliedschaft & Beitrag -->
+            <div>
+              <h2 class="text-lg font-semibold mb-4">Mitgliedschaft & Beitrag</h2>
+              <div class="space-y-2">
+                <p><span class="font-medium">Mitglied seit:</span> {{member?.memberSince | date:'dd.MM.yyyy'}}</p>
+                <p><span class="font-medium">Status:</span>
+                  <span [class]="member?.status === 'active' ? 'text-green-600' : 'text-red-600'">
+                    {{member?.status === 'active' ? 'Aktiv' : 'Inaktiv'}}
+                  </span>
+                </p>
+                <p><span class="font-medium">Beitragsintervall:</span> {{member?.paymentInterval}}</p>
+                <p><span class="font-medium">Beitragshöhe:</span> {{member?.contributionAmount | currency:'EUR'}}</p>
+              </div>
+            </div>
+
+            <!-- Bankverbindung -->
+            <div>
+              <h2 class="text-lg font-semibold mb-4">Zahlungsinformationen</h2>
+              <div class="space-y-2">
+                <p><span class="font-medium">Zahlungsart:</span> {{member?.paymentMethod}}</p>
+                <p><span class="font-medium">Bank:</span> {{member?.bankName}}</p>
+                <p><span class="font-medium">IBAN:</span> {{member?.iban}}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notizen -->
+          <mat-divider class="my-6"></mat-divider>
+          <div>
+            <h2 class="text-lg font-semibold mb-4">Notizen</h2>
+            <p class="whitespace-pre-line">{{member?.notes}}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <div class="flex justify-end space-x-4">
+        <button mat-button color="primary">
+          <mat-icon>edit</mat-icon>
+          Bearbeiten
+        </button>
+        <button mat-button color="warn">
+          <mat-icon>delete</mat-icon>
+          Löschen
+        </button>
+      </div>
+    </div>
+  </div>
